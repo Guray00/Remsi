@@ -29,6 +29,17 @@ for line in sys.stdin:
 # so we don't need to check for that and complete filters with no start or no end
 selectionFilter = "'" + "+".join(selectionsList) + "'"
 
+#open text file
+text_file = open("./afilter.txt", "w") 
+text_file.write("aselect=" + selectionFilter + ",asetpts=N/SR/TB" ) 
+text_file.close()
+
+# file di audio
+text_file = open("./vfilter.txt", "w") 
+text_file.write("select=" + selectionFilter + ",setpts=N/FRAME_RATE/TB") 
+text_file.close()
+
+"""
 vfilter = "-vf \"select=" + selectionFilter + ",setpts=N/FRAME_RATE/TB\""
 afilter = "-af \"aselect=" + selectionFilter + ",asetpts=N/SR/TB\""
 
@@ -40,6 +51,10 @@ output = f"{filename}[JUNK]{file_extension}"				# creo il nome del file di outpu
 
 disable_chapter = "-map_chapters -1"
 
+
+# ffmpeg -i "input" -filter_script:v "./vfilter.txt" -filter_script:a "./afilter.txt" "output"
+
 # output ffmpeg command
 # changed the output filename
 print("ffmpeg -i", '"' + inputFile + '"', vfilter, afilter, disable_chapter, '"' + output + '"')
+"""
