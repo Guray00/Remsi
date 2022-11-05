@@ -1,5 +1,4 @@
 import sys, re
-import os
 
 selectionsList = []
 timeSelection = "between(t,0,"
@@ -29,32 +28,12 @@ for line in sys.stdin:
 # so we don't need to check for that and complete filters with no start or no end
 selectionFilter = "'" + "+".join(selectionsList) + "'"
 
-#open text file
+# file audio
 text_file = open("./afilter.txt", "w") 
 text_file.write("aselect=" + selectionFilter + ",asetpts=N/SR/TB" ) 
 text_file.close()
 
-# file di audio
+# file video
 text_file = open("./vfilter.txt", "w") 
 text_file.write("select=" + selectionFilter + ",setpts=N/FRAME_RATE/TB") 
 text_file.close()
-
-"""
-vfilter = "-vf \"select=" + selectionFilter + ",setpts=N/FRAME_RATE/TB\""
-afilter = "-af \"aselect=" + selectionFilter + ",asetpts=N/SR/TB\""
-
-
-# recupero il nome in uscita
-filename, file_extension = os.path.splitext(inputFile)		# recupero il nome del file senza estensione
-name = os.path.basename(filename)							# recupero il nome del file con estensione
-output = f"{filename}[JUNK]{file_extension}"				# creo il nome del file di output
-
-disable_chapter = "-map_chapters -1"
-
-
-# ffmpeg -i "input" -filter_script:v "./vfilter.txt" -filter_script:a "./afilter.txt" "output"
-
-# output ffmpeg command
-# changed the output filename
-print("ffmpeg -i", '"' + inputFile + '"', vfilter, afilter, disable_chapter, '"' + output + '"')
-"""
