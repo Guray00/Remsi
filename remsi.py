@@ -1,4 +1,5 @@
 import sys, re
+import os
 
 selectionsList = []
 timeSelection = "between(t,0,"
@@ -31,5 +32,14 @@ selectionFilter = "'" + "+".join(selectionsList) + "'"
 vfilter = "-vf \"select=" + selectionFilter + ",setpts=N/FRAME_RATE/TB\""
 afilter = "-af \"aselect=" + selectionFilter + ",asetpts=N/SR/TB\""
 
+
+# recupero il nome in uscita
+filename, file_extension = os.path.splitext(inputFile)		# recupero il nome del file senza estensione
+name = os.path.basename(filename)							# recupero il nome del file con estensione
+output = f"{filename}[JUNK]{file_extension}"				# creo il nome del file di output
+
+disable_chapter = "-map_chapters -1"
+
 # output ffmpeg command
-print("ffmpeg -i", inputFile, vfilter, afilter, "outfile_" + inputFile)
+# changed the output filename
+print("ffmpeg -i", '"' + inputFile + '"', vfilter, afilter, disable_chapter, '"' + output + '"')
